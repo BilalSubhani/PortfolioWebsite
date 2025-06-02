@@ -33,41 +33,33 @@ export class ContactComponent {
     if (this.contactForm.valid) {
       this.isSubmitting = true;
 
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.setAttribute('data-netlify', 'true');
-      form.setAttribute('name', 'contact');
+      // Create FormData for Netlify
+      const formData = new FormData();
+      formData.append('form-name', 'contact');
+      formData.append('name', this.contactForm.value.name);
+      formData.append('email', this.contactForm.value.email);
+      formData.append('message', this.contactForm.value.message);
 
-      const hiddenField = document.createElement('input');
-      hiddenField.type = 'hidden';
-      hiddenField.name = 'form-name';
-      hiddenField.value = 'contact';
-      form.appendChild(hiddenField);
-
-      Object.keys(this.contactForm.value).forEach((key) => {
-        const input = document.createElement('input');
-        input.type = key === 'message' ? 'textarea' : 'text';
-        input.name = key;
-        input.value = this.contactForm.value[key];
-        form.appendChild(input);
-      });
-
-      document.body.appendChild(form);
-
-      Promise.resolve(form.submit())
+      // Submit to Netlify
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData as any).toString(),
+      })
         .then(() => {
           this.formSubmitted = true;
           this.formError = false;
           this.contactForm.reset();
         })
-        .catch(() => {
+        .catch((error) => {
+          console.error('Error:', error);
           this.formError = true;
         })
         .finally(() => {
           this.isSubmitting = false;
-          document.body.removeChild(form);
         });
     } else {
+      // Mark all fields as touched to show validation errors
       Object.keys(this.contactForm.controls).forEach((key) => {
         const control = this.contactForm.get(key);
         control?.markAsTouched();
