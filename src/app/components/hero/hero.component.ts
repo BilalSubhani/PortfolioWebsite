@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 
 @Component({
   selector: 'app-hero',
@@ -12,12 +12,19 @@ export class HeroComponent implements OnInit, OnDestroy {
   typingSpeed = 150;
   private typewriterInterval: any;
   private resetTimeout: any;
+  private isDestroyed = false;
+
+  constructor(private ngZone: NgZone) {}
 
   ngOnInit(): void {
-    // this.startTypewriter();
+    // Run outside Angular's zone to prevent excessive change detection
+    this.ngZone.runOutsideAngular(() => {
+      this.startTypewriter();
+    });
   }
 
   ngOnDestroy(): void {
+    this.isDestroyed = true;
     this.clearAllTimers();
   }
 
@@ -32,20 +39,41 @@ export class HeroComponent implements OnInit, OnDestroy {
     }
   }
 
-  startTypewriter(): void {
+  private startTypewriter(): void {
+    // Prevent execution if component is destroyed
+    if (this.isDestroyed) return;
+
     this.clearAllTimers();
     let charIndex = 0;
-    this.typedText = '';
+
+    // Reset text in Angular zone
+    this.ngZone.run(() => {
+      this.typedText = '';
+    });
 
     this.typewriterInterval = setInterval(() => {
+      // Check if component is still alive
+      if (this.isDestroyed) {
+        this.clearAllTimers();
+        return;
+      }
+
       if (charIndex < this.fullText.length) {
-        this.typedText += this.fullText.charAt(charIndex);
+        // Update text in Angular zone
+        this.ngZone.run(() => {
+          this.typedText += this.fullText.charAt(charIndex);
+        });
         charIndex++;
       } else {
+        // Typing completed
         clearInterval(this.typewriterInterval);
         this.typewriterInterval = null;
+
+        // Set reset timeout
         this.resetTimeout = setTimeout(() => {
-          this.startTypewriter();
+          if (!this.isDestroyed) {
+            this.startTypewriter();
+          }
         }, 2000);
       }
     }, this.typingSpeed);
@@ -65,3 +93,39 @@ export class HeroComponent implements OnInit, OnDestroy {
     }
   }
 }
+
+/*
+export class HeroComponentSimple implements OnInit, OnDestroy {
+  typedText = '';
+  fullText = 'Full Stack Developer';
+  typingSpeed = 150;
+  private typewriterInterval: any;
+
+  ngOnInit(): void {
+    this.startTypewriter();
+  }
+
+  ngOnDestroy(): void {
+    if (this.typewriterInterval) {
+      clearInterval(this.typewriterInterval);
+    }
+  }
+
+  private startTypewriter(): void {
+    let charIndex = 0;
+    this.typedText = '';
+
+    this.typewriterInterval = setInterval(() => {
+      if (charIndex < this.fullText.length) {
+        this.typedText += this.fullText.charAt(charIndex);
+        charIndex++;
+      } else {
+        clearInterval(this.typewriterInterval);
+        // Don't restart - just finish
+      }
+    }, this.typingSpeed);
+  }
+
+  // ... rest of methods
+}
+*/

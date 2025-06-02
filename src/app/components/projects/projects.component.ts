@@ -14,7 +14,7 @@ export class ProjectsComponent {
     {
       title: 'Builder App',
       description:
-        'A responsive admin dashboard for e-commerce platforms with sales analytics, order management, and inventory tracking.',
+        'Admin dashboard to manage text, images, and videos shown on the main landing page.',
       type: 'frontend',
       image: 'assets/images/frontend1.avif',
       technologies: ['Angular', 'TypeScript', 'Dashboard', 'Websocket Client'],
@@ -23,27 +23,27 @@ export class ProjectsComponent {
     {
       title: 'Haider Desk',
       description:
-        'A weather application that provides real-time weather forecasts using OpenWeatherMap API with location-based services.',
+        'E-commerce site for purchasing copyrighted logos, banners, and other graphic assets, including an admin dashboard.',
       type: 'frontend',
       image: 'assets/images/frontend2.avif',
       technologies: ['Angular', 'TypeScript', 'Dashboard', 'E-Commerce'],
-      github: 'https://github.com/BilalSubhani/haiderDesk'
+      github: 'https://github.com/BilalSubhani/haiderDesk',
     },
     {
       title: 'Portfolio Template',
       description:
-        'A customizable portfolio template for developers with animations and responsive design.',
+        'Angular-based, ready-to-deploy portfolio template with a clean and efficient layout.',
       type: 'frontend',
       image: 'assets/images/frontend3.avif',
       technologies: ['Angular', 'TypeScript', 'Netlify'],
-      github: 'https://github.com/BilalSubhani/PortfolioWebsite'
+      github: 'https://github.com/BilalSubhani/PortfolioWebsite',
     },
 
     // Backend projects
     {
       title: 'Burq Backend',
       description:
-        'RESTful API for a restaurant management system with order processing, menu management, and user authentication.',
+        'Built with NestJS, MongoDB, JWT, Passport, Cloudinary, and WebSockets for real-time features.',
       type: 'backend',
       image: 'assets/images/backend1.avif',
       technologies: ['NestJS', 'MongoDB', 'JWT', 'Cloudinary', 'Websockets'],
@@ -52,7 +52,7 @@ export class ProjectsComponent {
     {
       title: 'Haider Desk Backend',
       description:
-        'Real-time chat application backend with room creation, private messaging, and user presence tracking.',
+        'NestJS backend using MongoDB, JWT, Passport, Cloudinary, WebSockets, and analytics tracking.',
       type: 'backend',
       image: 'assets/images/backend2.avif',
       technologies: ['NestJS', 'MongoDB', 'JWT', 'Cloudinary', 'Websockets'],
@@ -61,7 +61,7 @@ export class ProjectsComponent {
     {
       title: 'Custom Backend',
       description:
-        'Content management system API for blogs with post management, categorization, and comment moderation.',
+        'Comprehensive backend with REST APIs, WebSockets, Nodemailer, Cloudinary, JWT, and chatbox support.',
       type: 'backend',
       image: 'assets/images/backend3.avif',
       technologies: ['NestJS', 'MongoDB', 'JWT', 'Chatbox', 'Websockets'],

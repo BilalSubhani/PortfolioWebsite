@@ -1,54 +1,234 @@
-<section id="skills" class="skills-section">
-  <div class="container">
-    <h2 class="section-title">Technical Skills</h2>
+<div class="skills-container">
+  <h2 class="section-title">My Skills</h2>
 
-    <div class="skills-categories">
-      <button
-        [ngClass]="{ active: activeCategory === 'frontend' }"
-        (click)="setCategory('frontend')"
-      >
-        <i class="fas fa-laptop-code"></i> Frontend
-      </button>
-      <button
-        [ngClass]="{ active: activeCategory === 'backend' }"
-        (click)="setCategory('backend')"
-      >
-        <i class="fas fa-server"></i> Backend
-      </button>
-      <button
-        [ngClass]="{ active: activeCategory === 'other' }"
-        (click)="setCategory('other')"
-      >
-        <i class="fas fa-tools"></i> Other
-      </button>
-    </div>
-
-    <div class="skills-container">
-      <div class="skill-card" *ngFor="let skill of getFilteredSkills()">
-        <div class="skill-icon">
-          <i
-            class="fab"
-            [ngClass]="skill.icon.startsWith('fa-') ? skill.icon : ''"
-            *ngIf="skill.icon.startsWith('fa-')"
-          ></i>
-          <i
-            class="fas"
-            [ngClass]="!skill.icon.startsWith('fa-') ? skill.icon : ''"
-            *ngIf="!skill.icon.startsWith('fa-')"
-          ></i>
-        </div>
-        <h3>{{ skill.name }}</h3>
-        <div class="skill-level">
-          <span
-            class="filled"
-            *ngFor="let _ of getProficiencyArray(skill.proficiency)"
-          ></span>
-          <span
-            class="empty"
-            *ngFor="let _ of getEmptyProficiencyArray(skill.proficiency)"
-          ></span>
+  <!-- Frontend Skills Section -->
+  <div class="skills-category">
+    <h3 class="category-title">Frontend Development</h3>
+    <div class="skills-slider-container">
+      <div class="skills-slider left-to-right">
+        <div
+          class="skills-track"
+          [style.animation-duration]="getFrontendSkills().length * 3 + 's'"
+        >
+          <ng-container *ngFor="let skill of getFrontendSkills()">
+            <div class="skill-card">
+              <div class="skill-icon">
+                <i
+                  class="fab {{ skill.icon }}"
+                  [class.fas]="!skill.icon.startsWith('fa-')"
+                ></i>
+              </div>
+              <div class="skill-info">
+                <h4 class="skill-name">{{ skill.name }}</h4>
+                <div class="skill-proficiency">
+                  <div class="proficiency-stars">
+                    <i
+                      *ngFor="
+                        let star of getProficiencyArray(skill.proficiency)
+                      "
+                      class="fas fa-star filled"
+                    >
+                    </i>
+                    <i
+                      *ngFor="
+                        let star of getEmptyProficiencyArray(skill.proficiency)
+                      "
+                      class="fas fa-star empty"
+                    >
+                    </i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <!-- Duplicate for seamless loop -->
+          <ng-container *ngFor="let skill of getFrontendSkills()">
+            <div class="skill-card">
+              <div class="skill-icon">
+                <i
+                  class="fab {{ skill.icon }}"
+                  [class.fas]="!skill.icon.startsWith('fa-')"
+                ></i>
+              </div>
+              <div class="skill-info">
+                <h4 class="skill-name">{{ skill.name }}</h4>
+                <div class="skill-proficiency">
+                  <div class="proficiency-stars">
+                    <i
+                      *ngFor="
+                        let star of getProficiencyArray(skill.proficiency)
+                      "
+                      class="fas fa-star filled"
+                    >
+                    </i>
+                    <i
+                      *ngFor="
+                        let star of getEmptyProficiencyArray(skill.proficiency)
+                      "
+                      class="fas fa-star empty"
+                    >
+                    </i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
         </div>
       </div>
     </div>
   </div>
-</section>
+
+  <!-- Backend Skills Section -->
+  <div class="skills-category">
+    <h3 class="category-title">Backend Development</h3>
+    <div class="skills-slider-container">
+      <div class="skills-slider right-to-left">
+        <div
+          class="skills-track"
+          [style.animation-duration]="getBackendSkills().length * 3 + 's'"
+        >
+          <ng-container *ngFor="let skill of getBackendSkills()">
+            <div class="skill-card">
+              <div class="skill-icon">
+                <i
+                  class="fab {{ skill.icon }}"
+                  [class.fas]="!skill.icon.startsWith('fa-')"
+                ></i>
+              </div>
+              <div class="skill-info">
+                <h4 class="skill-name">{{ skill.name }}</h4>
+                <div class="skill-proficiency">
+                  <div class="proficiency-stars">
+                    <i
+                      *ngFor="
+                        let star of getProficiencyArray(skill.proficiency)
+                      "
+                      class="fas fa-star filled"
+                    >
+                    </i>
+                    <i
+                      *ngFor="
+                        let star of getEmptyProficiencyArray(skill.proficiency)
+                      "
+                      class="fas fa-star empty"
+                    >
+                    </i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <!-- Duplicate for seamless loop -->
+          <ng-container *ngFor="let skill of getBackendSkills()">
+            <div class="skill-card">
+              <div class="skill-icon">
+                <i
+                  class="fab {{ skill.icon }}"
+                  [class.fas]="!skill.icon.startsWith('fa-')"
+                ></i>
+              </div>
+              <div class="skill-info">
+                <h4 class="skill-name">{{ skill.name }}</h4>
+                <div class="skill-proficiency">
+                  <div class="proficiency-stars">
+                    <i
+                      *ngFor="
+                        let star of getProficiencyArray(skill.proficiency)
+                      "
+                      class="fas fa-star filled"
+                    >
+                    </i>
+                    <i
+                      *ngFor="
+                        let star of getEmptyProficiencyArray(skill.proficiency)
+                      "
+                      class="fas fa-star empty"
+                    >
+                    </i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Other Skills Section -->
+  <div class="skills-category">
+    <h3 class="category-title">Other Technologies & Tools</h3>
+    <div class="skills-slider-container">
+      <div class="skills-slider left-to-right">
+        <div
+          class="skills-track"
+          [style.animation-duration]="getOtherSkills().length * 3 + 's'"
+        >
+          <ng-container *ngFor="let skill of getOtherSkills()">
+            <div class="skill-card">
+              <div class="skill-icon">
+                <i
+                  class="fab {{ skill.icon }}"
+                  [class.fas]="!skill.icon.startsWith('fa-')"
+                ></i>
+              </div>
+              <div class="skill-info">
+                <h4 class="skill-name">{{ skill.name }}</h4>
+                <div class="skill-proficiency">
+                  <div class="proficiency-stars">
+                    <i
+                      *ngFor="
+                        let star of getProficiencyArray(skill.proficiency)
+                      "
+                      class="fas fa-star filled"
+                    >
+                    </i>
+                    <i
+                      *ngFor="
+                        let star of getEmptyProficiencyArray(skill.proficiency)
+                      "
+                      class="fas fa-star empty"
+                    >
+                    </i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <!-- Duplicate for seamless loop -->
+          <ng-container *ngFor="let skill of getOtherSkills()">
+            <div class="skill-card">
+              <div class="skill-icon">
+                <i
+                  class="fab {{ skill.icon }}"
+                  [class.fas]="!skill.icon.startsWith('fa-')"
+                ></i>
+              </div>
+              <div class="skill-info">
+                <h4 class="skill-name">{{ skill.name }}</h4>
+                <div class="skill-proficiency">
+                  <div class="proficiency-stars">
+                    <i
+                      *ngFor="
+                        let star of getProficiencyArray(skill.proficiency)
+                      "
+                      class="fas fa-star filled"
+                    >
+                    </i>
+                    <i
+                      *ngFor="
+                        let star of getEmptyProficiencyArray(skill.proficiency)
+                      "
+                      class="fas fa-star empty"
+                    >
+                    </i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
