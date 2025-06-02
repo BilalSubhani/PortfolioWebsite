@@ -2,27 +2,78 @@
   <div class="container">
     <div class="hero-content">
       <div class="hero-text">
-        <h1 class="animate-in">Bilal Subhani</h1>
-        <h2 class="typewriter">
-          <span>{{ typedText }}</span
-          ><span class="cursor"></span>
+        <h1
+          class="animate-in"
+          style="
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+          "
+        >
+          Bilal Subhani
+        </h1>
+        <h2
+          class="typewriter"
+          style="
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+          "
+        >
+          <span>{{ typedText }}</span>
+          <span
+            class="cursor"
+            style="
+              display: inline-block;
+              width: 3px;
+              height: 1.2em;
+              background-color: var(--text-color);
+              margin-left: 2px;
+            "
+          ></span>
         </h2>
-        <p class="animate-in">
+        <p
+          class="animate-in"
+          style="
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            max-width: 600px;
+          "
+        >
           Full-Stack Web Developer | Building Scalable & Modern Web Solutions
         </p>
-        <div class="hero-buttons animate-in">
-          <button class="btn-primary" (click)="scrollToContact()">
+        <div
+          class="hero-buttons animate-in"
+          style="display: flex; gap: 1rem; margin-bottom: 2rem"
+        >
+          <button
+            class="btn-primary"
+            (click)="scrollToContact()"
+            style="padding: 12px 24px; font-size: 1rem"
+          >
             Hire Me
           </button>
-          <button class="btn-secondary" (click)="downloadCV()">
+          <button
+            class="btn-secondary"
+            (click)="downloadCV()"
+            style="padding: 12px 24px; font-size: 1rem"
+          >
             Download CV
           </button>
         </div>
-        <div class="social-links animate-in">
+        <div class="social-links animate-in" style="display: flex; gap: 1.5rem">
           <a
             href="https://github.com/BilalSubhani"
             target="_blank"
             aria-label="GitHub"
+            style="
+              font-size: 1.5rem;
+              color: var(--text-light);
+              transition: all 0.3s;
+            "
           >
             <i class="fab fa-github"></i>
           </a>
@@ -30,6 +81,11 @@
             href="https://linkedin.com/in/bilal-subhani"
             target="_blank"
             aria-label="LinkedIn"
+            style="
+              font-size: 1.5rem;
+              color: var(--text-light);
+              transition: all 0.3s;
+            "
           >
             <i class="fab fa-linkedin"></i>
           </a>
@@ -37,28 +93,91 @@
             href="https://twitter.com/ratuscay"
             target="_blank"
             aria-label="Twitter"
+            style="
+              font-size: 1.5rem;
+              color: var(--text-light);
+              transition: all 0.3s;
+            "
           >
             <i class="fab fa-twitter"></i>
           </a>
         </div>
       </div>
-      <div class="hero-image animate-in">
-        <div class="image-container">
+      <div
+        class="hero-image animate-in"
+        style="
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          position: relative;
+        "
+      >
+        <div
+          class="image-container"
+          style="
+            position: relative;
+            width: 400px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
           <div class="shape-blob"></div>
           <div class="shape-blob-2"></div>
-          <div class="dev-illustration">
+          <div
+            class="dev-illustration"
+            style="
+              position: relative;
+              z-index: 2;
+              font-size: 7rem;
+              color: var(--background-color);
+              text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            "
+          >
             <i class="fas fa-laptop-code"></i>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="scroll-indicator">
-    <div class="mouse">
-      <div class="wheel"></div>
+  <div
+    class="scroll-indicator"
+    style="
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    "
+  >
+    <div
+      class="mouse"
+      style="
+        width: 26px;
+        height: 40px;
+        border: 2px solid var(--text-light);
+        border-radius: 20px;
+        position: relative;
+        margin-bottom: 8px;
+      "
+    >
+      <div
+        class="wheel"
+        style="
+          width: 4px;
+          height: 8px;
+          background: var(--text-light);
+          position: absolute;
+          top: 8px;
+          left: 50%;
+          transform: translateX(-50%);
+          border-radius: 4px;
+        "
+      ></div>
     </div>
-    <div>
-      <span class="scroll-text">Scroll Down</span>
-    </div>
+    <span style="font-size: 0.8rem; color: var(--text-light)">Scroll Down</span>
   </div>
 </section>

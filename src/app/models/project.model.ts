@@ -2,8 +2,8 @@ export interface Project {
   title: string;
   description: string;
   type: 'frontend' | 'backend';
-  image: string; // Path to image
+  image: string;
   technologies: string[];
   github: string;
-  demo?: string; // Optional demo URL
+  demo?: string;
 }

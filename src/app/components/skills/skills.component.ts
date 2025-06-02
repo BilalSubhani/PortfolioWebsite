@@ -11,8 +11,8 @@ import { CommonModule } from '@angular/common';
 export class SkillsComponent {
   skills: Skill[] = [
     // Frontend skills
-    { name: 'HTML5', icon: 'fa-html5', category: 'frontend', proficiency: 5 },
-    { name: 'CSS3', icon: 'fa-css3-alt', category: 'frontend', proficiency: 5 },
+    { name: 'HTML5', icon: 'fa-html5', category: 'frontend', proficiency: 4 },
+    { name: 'CSS3', icon: 'fa-css3-alt', category: 'frontend', proficiency: 4 },
     {
       name: 'TypeScript',
       icon: 'fa-code',
@@ -23,10 +23,10 @@ export class SkillsComponent {
       name: 'Angular',
       icon: 'fa-angular',
       category: 'frontend',
-      proficiency: 5,
+      proficiency: 4,
     },
-    { name: 'JavaScript', icon: 'fa-js', category: 'frontend', proficiency: 5 },
-    { name: 'React', icon: 'fa-react', category: 'frontend', proficiency: 4 },
+    { name: 'JavaScript', icon: 'fa-js', category: 'frontend', proficiency: 4 },
+    { name: 'React', icon: 'fa-react', category: 'frontend', proficiency: 3 },
 
     // Backend skills
     { name: 'NestJS', icon: 'fa-server', category: 'backend', proficiency: 4 },
@@ -70,9 +70,9 @@ export class SkillsComponent {
       category: 'other',
       proficiency: 4,
     },
-    { name: 'Wix', icon: 'fa-w', category: 'other', proficiency: 4 },
+    { name: 'Wix', icon: 'fa-w', category: 'other', proficiency: 3 },
     { name: 'Python', icon: 'fa-python', category: 'other', proficiency: 3 },
-    { name: 'C++', icon: 'fa-laptop-code', category: 'other', proficiency: 3 },
+    { name: 'C++', icon: 'fa-laptop-code', category: 'other', proficiency: 4 },
   ];
 
   activeCategory: 'frontend' | 'backend' | 'other' = 'frontend';

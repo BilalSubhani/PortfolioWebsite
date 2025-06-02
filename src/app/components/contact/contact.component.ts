@@ -33,20 +33,17 @@ export class ContactComponent {
     if (this.contactForm.valid) {
       this.isSubmitting = true;
 
-      // For Netlify form handling
       const form = document.createElement('form');
       form.method = 'POST';
       form.setAttribute('data-netlify', 'true');
       form.setAttribute('name', 'contact');
 
-      // Hidden field for Netlify form identification
       const hiddenField = document.createElement('input');
       hiddenField.type = 'hidden';
       hiddenField.name = 'form-name';
       hiddenField.value = 'contact';
       form.appendChild(hiddenField);
 
-      // Add form data
       Object.keys(this.contactForm.value).forEach((key) => {
         const input = document.createElement('input');
         input.type = key === 'message' ? 'textarea' : 'text';
@@ -57,7 +54,6 @@ export class ContactComponent {
 
       document.body.appendChild(form);
 
-      // Submit the form
       Promise.resolve(form.submit())
         .then(() => {
           this.formSubmitted = true;
@@ -72,7 +68,6 @@ export class ContactComponent {
           document.body.removeChild(form);
         });
     } else {
-      // Mark all fields as touched to trigger validation messages
       Object.keys(this.contactForm.controls).forEach((key) => {
         const control = this.contactForm.get(key);
         control?.markAsTouched();
@@ -80,7 +75,6 @@ export class ContactComponent {
     }
   }
 
-  // Helper methods for form validation
   get nameControl() {
     return this.contactForm.get('name');
   }

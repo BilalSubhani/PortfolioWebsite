@@ -18,7 +18,7 @@ export class ProjectsComponent {
       type: 'frontend',
       image: 'assets/images/project-dashboard.jpg',
       technologies: ['Angular', 'TypeScript', 'Chart.js', 'Bootstrap'],
-      github: 'https://github.com/johnsmith/ecommerce-dashboard',
+      github: 'https://github.com/BilalSubhani/ecommerce-dashboard',
     },
     {
       title: 'Weather App',
@@ -27,7 +27,7 @@ export class ProjectsComponent {
       type: 'frontend',
       image: 'assets/images/project-weather.jpg',
       technologies: ['React', 'CSS3', 'OpenWeatherMap API'],
-      github: 'https://github.com/johnsmith/weather-app',
+      github: 'https://github.com/BilalSubhani/weather-app',
       demo: 'https://js-weather-app.netlify.app',
     },
     {
@@ -37,7 +37,7 @@ export class ProjectsComponent {
       type: 'frontend',
       image: 'assets/images/project-portfolio.jpg',
       technologies: ['HTML5', 'CSS3', 'JavaScript', 'GSAP'],
-      github: 'https://github.com/johnsmith/portfolio-template',
+      github: 'https://github.com/BilalSubhani/portfolio-template',
       demo: 'https://js-portfolio-template.netlify.app',
     },
 
@@ -49,7 +49,7 @@ export class ProjectsComponent {
       type: 'backend',
       image: 'assets/images/project-restaurant.jpg',
       technologies: ['NestJS', 'MongoDB', 'JWT', 'Swagger'],
-      github: 'https://github.com/johnsmith/restaurant-api',
+      github: 'https://github.com/BilalSubhani/restaurant-api',
     },
     {
       title: 'Chat Application',
@@ -58,7 +58,7 @@ export class ProjectsComponent {
       type: 'backend',
       image: 'assets/images/project-chat.jpg',
       technologies: ['Node.js', 'Socket.io', 'Express', 'MongoDB'],
-      github: 'https://github.com/johnsmith/chat-app-backend',
+      github: 'https://github.com/BilalSubhani/chat-app-backend',
     },
     {
       title: 'Blog CMS API',
@@ -67,7 +67,7 @@ export class ProjectsComponent {
       type: 'backend',
       image: 'assets/images/project-blog.jpg',
       technologies: ['Express.js', 'PostgreSQL', 'Sequelize', 'AWS S3'],
-      github: 'https://github.com/johnsmith/blog-cms-api',
+      github: 'https://github.com/BilalSubhani/blog-cms-api',
     },
   ];
 

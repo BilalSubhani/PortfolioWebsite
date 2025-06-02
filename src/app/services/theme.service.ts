@@ -17,7 +17,6 @@ export class ThemeService {
       if (savedTheme) {
         this.setDarkMode(savedTheme === 'dark');
       } else {
-        // Use system preference as default
         const prefersDark = window.matchMedia(
           '(prefers-color-scheme: dark)'
         ).matches;
@@ -34,14 +33,11 @@ export class ThemeService {
     this.darkMode.next(isDark);
 
     if (isPlatformBrowser(this.platformId)) {
-      // Update DOM
       if (isDark) {
         document.body.classList.add('dark-theme');
       } else {
         document.body.classList.remove('dark-theme');
       }
-
-      // Save preference
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
     }
   }

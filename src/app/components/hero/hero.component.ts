@@ -11,20 +11,29 @@ export class HeroComponent implements OnInit, OnDestroy {
   fullText = 'Full Stack Developer';
   typingSpeed = 150;
   private typewriterInterval: any;
-
-  constructor() {}
+  private resetTimeout: any;
 
   ngOnInit(): void {
-    this.startTypewriter();
+    // this.startTypewriter();
   }
 
   ngOnDestroy(): void {
+    this.clearAllTimers();
+  }
+
+  private clearAllTimers(): void {
     if (this.typewriterInterval) {
       clearInterval(this.typewriterInterval);
+      this.typewriterInterval = null;
+    }
+    if (this.resetTimeout) {
+      clearTimeout(this.resetTimeout);
+      this.resetTimeout = null;
     }
   }
 
   startTypewriter(): void {
+    this.clearAllTimers();
     let charIndex = 0;
     this.typedText = '';
 
@@ -33,17 +42,13 @@ export class HeroComponent implements OnInit, OnDestroy {
         this.typedText += this.fullText.charAt(charIndex);
         charIndex++;
       } else {
-        // Reset for a blinking cursor effect
-        setTimeout(() => {
-          this.resetTypewriter();
+        clearInterval(this.typewriterInterval);
+        this.typewriterInterval = null;
+        this.resetTimeout = setTimeout(() => {
+          this.startTypewriter();
         }, 2000);
       }
     }, this.typingSpeed);
-  }
-
-  resetTypewriter(): void {
-    clearInterval(this.typewriterInterval);
-    this.startTypewriter();
   }
 
   downloadCV(): void {
