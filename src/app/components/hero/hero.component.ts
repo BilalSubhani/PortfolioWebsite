@@ -80,10 +80,26 @@ export class HeroComponent implements OnInit, OnDestroy {
   }
 
   downloadCV(): void {
-    const link = document.createElement('a');
-    link.href = 'assets/CV_Bilal Subhani.pdf';
-    link.download = 'CV_Bilal Subhani.pdf';
-    link.click();
+    const fileUrl = 'assets/CV_BilalSubhani.pdf';
+
+    fetch(fileUrl)
+      .then((response) => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.blob();
+      })
+      .then((blob) => {
+        const blobUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = 'CV_BilalSubhani.pdf';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(blobUrl);
+      })
+      .catch((error) => {
+        console.error('Download error:', error);
+      });
   }
 
   scrollToContact(): void {

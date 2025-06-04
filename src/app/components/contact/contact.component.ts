@@ -33,14 +33,12 @@ export class ContactComponent {
     if (this.contactForm.valid) {
       this.isSubmitting = true;
 
-      // Create FormData for Netlify
       const formData = new FormData();
       formData.append('form-name', 'contact');
       formData.append('name', this.contactForm.value.name);
       formData.append('email', this.contactForm.value.email);
       formData.append('message', this.contactForm.value.message);
 
-      // Submit to Netlify
       fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -59,7 +57,6 @@ export class ContactComponent {
           this.isSubmitting = false;
         });
     } else {
-      // Mark all fields as touched to show validation errors
       Object.keys(this.contactForm.controls).forEach((key) => {
         const control = this.contactForm.get(key);
         control?.markAsTouched();
