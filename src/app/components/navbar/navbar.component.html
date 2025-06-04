@@ -11,6 +11,13 @@
     </div>
 
     <div class="navbar-links" [ngClass]="{ open: isMobileMenuOpen }">
+      <button
+        class="mobile-close"
+        (click)="toggleMobileMenu()"
+        aria-label="Close Menu"
+      >
+        <i class="fas fa-times"></i>
+      </button>
       <ul>
         <li><a href="#home" (click)="scrollToSection('home')">Home</a></li>
         <li>
