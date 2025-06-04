@@ -106,7 +106,7 @@ export class SkillsComponent implements OnInit {
     { name: 'SQL', icon: 'fas fa-table', category: 'backend', proficiency: 3 },
     {
       name: 'REST API',
-      icon: 'fas fa-exchange-alt',
+      icon: 'fas fa-arrow-right-arrow-left',
       category: 'backend',
       proficiency: 5,
     },

@@ -13,10 +13,8 @@
           <ng-container *ngFor="let skill of getFrontendSkills()">
             <div class="skill-card">
               <div class="skill-icon">
-                <i
-                  class="fab {{ skill.icon }}"
-                  [class.fas]="!skill.icon.startsWith('fa-')"
-                ></i>
+                <!-- FIXED: Use the complete icon class from skill.icon -->
+                <i [class]="skill.icon"></i>
               </div>
               <div class="skill-info">
                 <h4 class="skill-name">{{ skill.name }}</h4>
@@ -45,10 +43,7 @@
           <ng-container *ngFor="let skill of getFrontendSkills()">
             <div class="skill-card">
               <div class="skill-icon">
-                <i
-                  class="fab {{ skill.icon }}"
-                  [class.fas]="!skill.icon.startsWith('fa-')"
-                ></i>
+                <i [class]="skill.icon"></i>
               </div>
               <div class="skill-info">
                 <h4 class="skill-name">{{ skill.name }}</h4>
@@ -90,10 +85,7 @@
           <ng-container *ngFor="let skill of getBackendSkills()">
             <div class="skill-card">
               <div class="skill-icon">
-                <i
-                  class="fab {{ skill.icon }}"
-                  [class.fas]="!skill.icon.startsWith('fa-')"
-                ></i>
+                <i [class]="skill.icon"></i>
               </div>
               <div class="skill-info">
                 <h4 class="skill-name">{{ skill.name }}</h4>
@@ -122,10 +114,7 @@
           <ng-container *ngFor="let skill of getBackendSkills()">
             <div class="skill-card">
               <div class="skill-icon">
-                <i
-                  class="fab {{ skill.icon }}"
-                  [class.fas]="!skill.icon.startsWith('fa-')"
-                ></i>
+                <i [class]="skill.icon"></i>
               </div>
               <div class="skill-info">
                 <h4 class="skill-name">{{ skill.name }}</h4>
@@ -167,10 +156,7 @@
           <ng-container *ngFor="let skill of getOtherSkills()">
             <div class="skill-card">
               <div class="skill-icon">
-                <i
-                  class="fab {{ skill.icon }}"
-                  [class.fas]="!skill.icon.startsWith('fa-')"
-                ></i>
+                <i [class]="skill.icon"></i>
               </div>
               <div class="skill-info">
                 <h4 class="skill-name">{{ skill.name }}</h4>
@@ -199,10 +185,7 @@
           <ng-container *ngFor="let skill of getOtherSkills()">
             <div class="skill-card">
               <div class="skill-icon">
-                <i
-                  class="fab {{ skill.icon }}"
-                  [class.fas]="!skill.icon.startsWith('fa-')"
-                ></i>
+                <i [class]="skill.icon"></i>
               </div>
               <div class="skill-info">
                 <h4 class="skill-name">{{ skill.name }}</h4>
