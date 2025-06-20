@@ -16,8 +16,8 @@ export class ExperienceComponent {
       title: 'Junior Developer (Angular/NestJS)',
       period: 'December 2024 - June 2025',
       responsibilities: [
-        'Developing and maintaining frontend and backend applications using Angular and NestJS, working on both team-based and solo projects to deliver complete web solutions.',
-        'Building ERP systems, e-commerce platforms, and other applications, handling authentication, dashboards, user roles, and business logic, while ensuring scalability and performance.',
+        'Developed and maintained frontend and backend applications using Angular and NestJS, worked on both team-based and solo projects to deliver complete web solutions.',
+        'Built ERP systems, e-commerce platforms, and other applications, handled authentication, dashboards, user roles, and business logic, while ensuring scalability and performance.',
         'Developed custom Shopify themes and snippets, and built admin apps using Shopify Polaris and Remix.',
         'Drove SEO and performance improvements with Lighthouse scores of 95+ (desktop) and 75+ (mobile)',
         'Led a team for data entry on Pakistan Food Portal, helping the platform expand to 2,000+ restaurants in Lahore by ensuring smooth collaboration and timely task completion.',

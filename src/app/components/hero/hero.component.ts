@@ -80,11 +80,14 @@ export class HeroComponent implements OnInit, OnDestroy {
   }
 
   downloadCV(): void {
-    window.open(
-      'https://drive.google.com/file/d/1rwbeCIn2B14p3TXmadm03BzzEMrhSzkL/view?usp=sharing',
-      '_blank'
-    );
+    const downloadLink = 'https://drive.google.com/uc?export=download&id=1rwbeCIn2B14p3TXmadm03BzzEMrhSzkL';
+    const anchor = document.createElement('a');
+    anchor.href = downloadLink;
+    anchor.target = '_blank';
+    anchor.download = 'Resume_Bilal Subhani.pdf';
+    anchor.click();
   }
+
 
   scrollToContact(): void {
     const contactSection = document.getElementById('contact');
