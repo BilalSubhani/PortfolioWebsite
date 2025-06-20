@@ -14,7 +14,7 @@ export class HeroComponent implements OnInit, OnDestroy {
   private resetTimeout: any;
   private isDestroyed = false;
 
-  constructor(private ngZone: NgZone) {}
+  constructor(private ngZone: NgZone) { }
 
   ngOnInit(): void {
     // Run outside Angular's zone to prevent excessive change detection
@@ -81,7 +81,7 @@ export class HeroComponent implements OnInit, OnDestroy {
 
   downloadCV(): void {
     window.open(
-      'https://drive.google.com/file/d/1ZRrXUAxMpDN_EJC7uHw3AhSe-5yjc7U4/view?usp=sharing',
+      'https://drive.google.com/file/d/1g6a0apJroeFZyypwQxcRkXiEsRFq5UEG/view?usp=drive_link',
       '_blank'
     );
   }
