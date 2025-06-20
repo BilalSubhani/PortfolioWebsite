@@ -81,7 +81,7 @@ export class HeroComponent implements OnInit, OnDestroy {
 
   downloadCV(): void {
     window.open(
-      'https://drive.google.com/file/d/1g6a0apJroeFZyypwQxcRkXiEsRFq5UEG/view?usp=drive_link',
+      'https://drive.google.com/file/d/1rwbeCIn2B14p3TXmadm03BzzEMrhSzkL/view?usp=sharing',
       '_blank'
     );
   }
