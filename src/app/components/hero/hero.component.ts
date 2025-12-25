@@ -80,7 +80,7 @@ export class HeroComponent implements OnInit, OnDestroy {
   }
 
   downloadCV(): void {
-    const downloadLink = 'https://drive.google.com/uc?export=download&id=1rwbeCIn2B14p3TXmadm03BzzEMrhSzkL';
+    const downloadLink = 'https://drive.google.com/file/d/1JRRCjmQEE-bFINsy-FloC8LyFYu4enLQ/view?usp=sharing';
     const anchor = document.createElement('a');
     anchor.href = downloadLink;
     anchor.target = '_blank';

@@ -11,9 +11,21 @@ import { CommonModule } from '@angular/common';
 export class ExperienceComponent {
   experiences: Experience[] = [
     {
+      company: 'Clear Wave Information Technology',
+      location: 'Lahore, Pakistan',
+      title: 'Software Engineer',
+      period: 'July 2025 - Present',
+      responsibilities: [
+        'Built enterprise ERP, CRM, and admin dashboard applications using Next.js, NestJS, and FastAPI.',
+        'Led frontend development by designing application architecture, state management, and scalable UI structure.',
+        'Designed Redis caching for frequently accessed data, reducing backend API calls and improving response times.',
+        'Implemented async processing and real-time dashboards using RabbitMQ and WebSockets.',
+      ],
+    },
+    {
       company: 'Tech Hype',
       location: 'Lahore, Pakistan',
-      title: 'Junior Developer (Angular/NestJS)',
+      title: 'MERN Stack Developer',
       period: 'December 2024 - June 2025',
       responsibilities: [
         'Developed and maintained frontend and backend applications using Angular and NestJS, worked on both team-based and solo projects to deliver complete web solutions.',

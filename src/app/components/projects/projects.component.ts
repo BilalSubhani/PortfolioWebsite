@@ -59,7 +59,7 @@ export class ProjectsComponent {
       github: 'https://github.com/BilalSubhani/haiderDeskBackend',
     },
     {
-      title: 'Custom Backend',
+      title: 'Voxa',
       description:
         'Comprehensive backend with REST APIs, WebSockets, Nodemailer, Cloudinary, JWT, and chatbox support.',
       type: 'backend',
@@ -71,9 +71,9 @@ export class ProjectsComponent {
 
   activeType: 'frontend' | 'backend' = 'frontend';
 
-  constructor() {}
+  constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   setType(type: 'frontend' | 'backend'): void {
     this.activeType = type;

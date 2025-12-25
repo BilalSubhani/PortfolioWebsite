@@ -36,20 +36,22 @@ export class SkillsComponent implements OnInit {
       proficiency: 4,
     },
     {
-      name: 'JavaScript',
-      icon: 'fab fa-js-square',
+      name: 'React',
+      icon: 'fab fa-react',
       category: 'frontend',
       proficiency: 4,
     },
     {
-      name: 'React',
-      icon: 'fab fa-react',
+      name: 'Next.js',
+      icon: 'fas fa-code',
       category: 'frontend',
-      proficiency: 3,
+      proficiency: 4,
     },
+    { name: 'React Query', icon: 'fas fa-sync-alt', category: 'frontend', proficiency: 3 },
+    { name: 'Zustand', icon: 'fas fa-store', category: 'frontend', proficiency: 2 },
     {
-      name: 'Bootstrap',
-      icon: 'fab fa-bootstrap',
+      name: 'JavaScript',
+      icon: 'fab fa-js-square',
       category: 'frontend',
       proficiency: 4,
     },
@@ -80,6 +82,12 @@ export class SkillsComponent implements OnInit {
       proficiency: 4,
     },
     {
+      name: 'FastAPI',
+      icon: 'fas fa-python',
+      category: 'backend',
+      proficiency: 4,
+    },
+    {
       name: 'Node.js',
       icon: 'fab fa-node-js',
       category: 'backend',
@@ -103,10 +111,11 @@ export class SkillsComponent implements OnInit {
       category: 'backend',
       proficiency: 3,
     },
-    { name: 'SQL', icon: 'fas fa-table', category: 'backend', proficiency: 3 },
+    { name: 'PostgreSQL', icon: 'fas fa-table', category: 'backend', proficiency: 3 },
+    { name: 'Redis', icon: 'fas fa-table', category: 'backend', proficiency: 3 },
     {
       name: 'REST API',
-      icon: 'fas fa-arrow-right-arrow-left',
+      icon: 'fas fa-project-diagram',
       category: 'backend',
       proficiency: 5,
     },
@@ -129,21 +138,14 @@ export class SkillsComponent implements OnInit {
       category: 'backend',
       proficiency: 3,
     },
+    { name: 'Firestore', icon: 'fas fa-database', category: 'backend', proficiency: 3 },
 
     // Other skills
     { name: 'Git', icon: 'fab fa-git-alt', category: 'other', proficiency: 4 },
-    {
-      name: 'GitHub',
-      icon: 'fab fa-github',
-      category: 'other',
-      proficiency: 4,
-    },
-    {
-      name: 'Docker',
-      icon: 'fab fa-docker',
-      category: 'other',
-      proficiency: 1,
-    },
+    { name: 'GitHub', icon: 'fab fa-github', category: 'other', proficiency: 4 },
+    { name: 'GitHub Actions', icon: 'fas fa-cogs', category: 'other', proficiency: 3 },
+    { name: 'RabbitMQ', icon: 'fas fa-share-alt', category: 'other', proficiency: 4 },
+    { name: 'Docker', icon: 'fab fa-docker', category: 'other', proficiency: 1 },
     { name: 'Linux', icon: 'fab fa-linux', category: 'other', proficiency: 3 },
     {
       name: 'Agile/Scrum',
@@ -192,9 +194,9 @@ export class SkillsComponent implements OnInit {
     { name: 'Testing', icon: 'fas fa-bug', category: 'other', proficiency: 3 },
   ];
 
-  constructor() {}
+  constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   getFrontendSkills(): Skill[] {
     return this.skills.filter((skill) => skill.category === 'frontend');
