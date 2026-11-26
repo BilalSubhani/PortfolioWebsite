@@ -1,0 +1,265 @@
+@import 'tailwindcss';
+
+@custom-variant light (&:where([data-theme='light'], [data-theme='light'] *));
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+  --color-line: var(--line);
+  --color-ok: var(--ok);
+  --color-err: var(--err);
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, monospace;
+  --breakpoint-xs: 26rem;
+  --breakpoint-3xl: 112rem;
+}
+
+/* Warm matte dark (default) */
+:root,
+[data-theme='dark'] {
+  --bg: #171613;
+  --surface: #24211d;
+  --surface-2: #2c2924;
+  --fg: #e8e0d2;
+  --muted: #a89b88;
+  --accent: #c18b60;
+  --accent-fg: #171613;
+  --accent-soft: rgb(193 139 96 / 0.14);
+  --line: rgb(232 224 210 / 0.1);
+  --ok: #9cb380;
+  --err: #d98b7a;
+  --grain-opacity: 0.05;
+  --sheet-shadow: rgb(0 0 0 / 0.55);
+  color-scheme: dark;
+}
+
+/* Warm ivory light — designed, not inverted */
+[data-theme='light'] {
+  --bg: #f4efe6;
+  --surface: #fbf8f2;
+  --surface-2: #ece5d8;
+  --fg: #2a241d;
+  --muted: #6b5f50;
+  --accent: #8f5527;
+  --accent-fg: #fbf8f2;
+  --accent-soft: rgb(143 85 39 / 0.1);
+  --line: rgb(42 36 29 / 0.12);
+  --ok: #4f6b33;
+  --err: #a2432f;
+  --grain-opacity: 0.035;
+  --sheet-shadow: rgb(70 50 30 / 0.18);
+  color-scheme: light;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-bg font-sans text-fg antialiased;
+    overflow-x: clip;
+    transition:
+      background-color 0.4s ease,
+      color 0.4s ease;
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-fg);
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  section[id] {
+    scroll-margin-top: 5.5rem;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-display tracking-tight text-balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@utility container-x {
+  @apply mx-auto w-full max-w-[1200px] px-5 sm:px-8 3xl:max-w-[1400px];
+}
+@utility section-y {
+  @apply py-20 sm:py-24 lg:py-32;
+}
+@utility eyebrow {
+  @apply font-mono text-xs tracking-[0.18em] text-accent uppercase;
+}
+@utility card {
+  @apply rounded-2xl border border-line bg-surface;
+}
+@utility btn {
+  @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 text-sm font-medium whitespace-nowrap transition-colors duration-200 select-none;
+}
+@utility btn-primary {
+  @apply btn bg-accent text-accent-fg hover:brightness-110;
+}
+@utility btn-ghost {
+  @apply btn border border-line text-fg hover:border-accent hover:text-accent;
+}
+@utility chip {
+  @apply inline-flex items-center rounded-full border border-line px-2.5 py-0.5 font-mono text-[11px] text-muted;
+}
+
+/* Matte grain overlay */
+.grain::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* First visit: hide the site until the visitor picks a path (RolePicker removes the class) */
+html.needs-role #main,
+html.needs-role header,
+html.needs-role footer,
+html.needs-role .grain::after {
+  visibility: hidden;
+}
+
+/* Custom cursor (mouse devices only; the class is added by <Cursor> once it's running) */
+@media (hover: hover) and (pointer: fine) {
+  html.custom-cursor,
+  html.custom-cursor * {
+    cursor: none !important;
+  }
+  html.custom-cursor input:not([type='range']):not([type='radio']):not([type='checkbox']),
+  html.custom-cursor textarea,
+  html.custom-cursor [contenteditable='true'] {
+    cursor: text !important;
+  }
+}
+
+/* Role lens: both copies are in the HTML; show the one for the visitor's chosen role */
+html[data-role='plain'] .lens-dev,
+html:not([data-role='plain']) .lens-plain {
+  display: none !important;
+}
+
+/* Scroll-driven border beam (21st.dev-style). GlowController animates --glow-angle and --glow. */
+@property --glow-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+[data-glow] {
+  position: relative;
+  --glow: 0;
+}
+[data-glow]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  border-radius: inherit;
+  padding: 1.5px;
+  pointer-events: none;
+  background: conic-gradient(
+    from var(--glow-angle),
+    transparent 0deg,
+    var(--accent) 50deg,
+    color-mix(in oklab, var(--accent) 40%, var(--fg)) 70deg,
+    transparent 120deg,
+    transparent 220deg,
+    color-mix(in oklab, var(--accent) 60%, transparent) 270deg,
+    transparent 320deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  opacity: calc(var(--glow) * 0.85);
+  transition: opacity 0.3s ease;
+}
+[data-glow]:hover::before {
+  opacity: 1;
+}
+
+/* Section "sheets" on the homepage (animated by MergeController) */
+[data-merge-stack] > section {
+  position: relative;
+  background-color: var(--bg);
+}
+[data-merge-stack] > section + section {
+  border-top: 1px solid var(--line);
+  border-top-left-radius: clamp(1.5rem, 4vw, 3rem);
+  border-top-right-radius: clamp(1.5rem, 4vw, 3rem);
+  box-shadow: 0 -30px 60px -30px var(--sheet-shadow);
+  margin-top: -1px;
+}
+[data-merge-shade] {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  background: var(--bg);
+  opacity: 0;
+  border-radius: inherit;
+}
+
+/* GSAP reveal targets start hidden only when JS is running and motion is allowed */
+html.js:not(.reduce-motion) [data-reveal] {
+  visibility: hidden;
+}
+
+/* Preloader is only shown when the inline head script opts in (first visit per session) */
+.preloader {
+  display: none;
+}
+html.preload .preloader {
+  display: flex;
+}
+html.preload body {
+  overflow: hidden;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+/* Thin warm scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
