@@ -1,125 +1,37 @@
-# Angular Portfolio Website Template
+# Bilal Subhani — Portfolio
 
-A simple, clean, and efficient portfolio website template built using **Angular**. Ideal for developers, designers, and freelancers who want to showcase their work online.
+Personal portfolio site for Bilal Subhani, Full-Stack Software Engineer and Team Lead.
+Live at [bilalsubhani.com](https://bilalsubhani.com).
 
-## 🚀 Features
+## Stack
 
-- Responsive design
-- Clean and minimal layout
-- Project showcase section
-- About and contact pages
-- Theme mode toggle (light/dark)
-- Easily customizable structure and styles
-- Ready to deploy
+- React 19 + TypeScript
+- Vite
+- SCSS
+- Netlify (hosting + Netlify Forms for the contact form)
 
-## 🛠️ Tech Stack
+## Getting started
 
-- **Frontend Framework:** Angular
-- **Styling:** SCSS / CSS
-- **Routing:** Angular Router
-- **Forms:** Angular Reactive Forms
-
-## 📦 Installation
-
-1.  **Clone the repository:**
-    ```
-    git clone [https://github.com/your-username/angular-portfolio.git](https://github.com/your-username/angular-portfolio.git)
-    cd angular-portfolio
-    ```
-2.  **Install dependencies:**
-    ```
-    npm install
-    ```
-3.  **Run the app:**
-    ```
-    ng serve
-    ```
-    Navigate to [http://localhost:4200/](http://localhost:4200/) to see the website in action.
-
-## 🧑‍💻 Customization
-
-- Modify `src/app/data` files for portfolio content (projects, skills, etc.)
-- Update `src/assets` with your images
-- Customize styles in `src/styles.scss`
-
-## 🧾 Deployment
-
-Build the project for production:
-
-````
-Markdown
-
-# Angular Portfolio Website Template
-
-A simple, clean, and efficient portfolio website template built using **Angular**. Ideal for developers, designers, and freelancers who want to showcase their work online.
-
-## 🚀 Features
-
-- Responsive design
-- Clean and minimal layout
-- Project showcase section
-- About and contact pages
-- Theme mode toggle (light/dark)
-- Easily customizable structure and styles
-- Ready to deploy
-
-## 🛠️ Tech Stack
-
-- **Frontend Framework:** Angular
-- **Styling:** SCSS / CSS
-- **Routing:** Angular Router
-- **Forms:** Angular Reactive Forms
-
-## 📦 Installation
-
-1.  **Clone the repository:**
-    ```
-    git clone [https://github.com/your-username/angular-portfolio.git](https://github.com/your-username/angular-portfolio.git)
-    cd angular-portfolio
-    ```
-2.  **Install dependencies:**
-    ```
-    npm install
-    ```
-3.  **Run the app:**
-    ```
-    ng serve
-    ```
-    Navigate to [http://localhost:4200/](http://localhost:4200/) to see the website in action.
-
-## 🧑‍💻 Customization
-
-- Modify `src/app/data` files for portfolio content (projects, skills, etc.)
-- Update `src/assets` with your images
-- Customize styles in `src/styles.scss`
-
-## 🧾 Deployment
-
-Build the project for production:
-
-````
-
-ng build --prod
-
+```bash
+npm install
+npm run dev       # dev server
+npm run build     # type-check + production build to dist/
+npm run preview   # serve the production build locally
 ```
 
-Deploy the `dist/` folder to any static hosting service like **GitHub Pages**, **Vercel**, or **Netlify**.
+## Editing content
 
-## 📸 Screenshots
+All site content lives in `src/data/`:
 
-_(Add screenshots here if available)_
+| File | What it holds |
+| --- | --- |
+| `profile.ts` | Name, headline, summary, hero stats, contact details, social links, resume link |
+| `skills.ts` | Skill categories shown in the Skills section |
+| `experience.ts` | Work history and education. Wrap text in `**double asterisks**` to bold it |
+| `projects.ts` | Open-source packages and frontend/backend projects |
 
-## 🧪 TODOs
+## Contact form
 
-- Add animations
-- Improve accessibility
-- Add blog section (optional)
-
-## 📄 License
-
-This project is open-source and available under the [MIT License](LICENSE).
-
----
-
-Made with ❤️ using Angular.
-```
+The contact form posts to Netlify Forms. The hidden `<form name="contact">` in `index.html`
+lets Netlify detect the form at deploy time; keep its fields in sync with
+`src/components/Contact/Contact.tsx`. Submissions only work on the deployed site, not on the local dev server.
