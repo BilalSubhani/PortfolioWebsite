@@ -92,20 +92,32 @@ export default function Navbar() {
     { dependencies: [isHome] },
   );
 
-  // Slide the indicator pill under the active link.
+  // Slide the indicator pill under the active link. Measured against the whole row: each
+  // link sits in its own positioned <li>, so link.offsetLeft would be 0 for every link.
+  const activeRef = useRef<string | null>(null);
+  const alignPill = (duration: number) => {
+    const p = pill.current;
+    const row = linksRef.current;
+    const id = activeRef.current;
+    const link = id ? row?.querySelector<HTMLElement>(`[data-id="${id}"]`) : null;
+    if (!p || !row) return;
+    if (!link) return void gsap.to(p, { autoAlpha: 0, duration: 0.25, overwrite: true });
+    const r = link.getBoundingClientRect();
+    const base = row.getBoundingClientRect();
+    gsap.to(p, { x: r.left - base.left, width: r.width, autoAlpha: 1, duration, ease: 'power3.out', overwrite: true });
+  };
+  // Re-align if the layout shifts (window resize, web fonts finishing loading).
+  useEffect(() => {
+    const realign = () => alignPill(0);
+    window.addEventListener('resize', realign);
+    document.fonts?.ready.then(realign);
+    return () => window.removeEventListener('resize', realign);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   useGSAP(
     () => {
-      const p = pill.current;
-      const link = active ? linksRef.current?.querySelector<HTMLElement>(`[data-id="${active}"]`) : null;
-      if (!p) return;
-      if (!link) return void gsap.to(p, { autoAlpha: 0, duration: 0.25 });
-      gsap.to(p, {
-        x: link.offsetLeft,
-        width: link.offsetWidth,
-        autoAlpha: 1,
-        duration: prefersReducedMotion() ? 0 : 0.5,
-        ease: 'power3.out',
-      });
+      activeRef.current = active;
+      alignPill(prefersReducedMotion() ? 0 : 0.5);
     },
     { dependencies: [active] },
   );
