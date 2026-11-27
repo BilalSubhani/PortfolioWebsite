@@ -31,6 +31,8 @@ export default function Demolition() {
       const pieces = all.filter((el) => !all.some((o) => o !== el && o.contains(el)));
 
       const say = (t: string) => window.dispatchEvent(new CustomEvent('buddy:say', { detail: t }));
+      // One punchline per demolition, picked at random.
+      const punchline = Math.random() < 0.5 ? 'All handled, Mr President.' : '“It’s done, bro.” ~ probably Salman Khan';
       window.dispatchEvent(new Event('buddy:rogue'));
       setStatus('rm: descending into ‘/portfolio’…');
       const sleep = (s: number) => new Promise((r) => setTimeout(r, s * 1000));
@@ -38,7 +40,7 @@ export default function Demolition() {
       if (reduce) {
         // No flying debris for reduced motion: a quick fade out and back.
         await gsap.to(main, { autoAlpha: 0.1, duration: 0.2 });
-        say('All handled, Mr President.');
+        say(punchline);
         await sleep(1.6);
         await gsap.to(main, { autoAlpha: 1, duration: 0.2 });
       } else {
@@ -66,10 +68,8 @@ export default function Demolition() {
         clearInterval(counter);
         setStatus('rm: ‘/portfolio’: gone. Like it never existed.');
         await sleep(0.5);
-        say('All handled, Mr President.');
-        await sleep(1.6);
-        say('“It’s done, bro.” ~ probably Salman Khan');
-        await sleep(2);
+        say(punchline);
+        await sleep(3);
         setStatus('Restoring from backup…');
         say('Relax. We have backups.');
         await tl.timeScale(1.6).reverse();
