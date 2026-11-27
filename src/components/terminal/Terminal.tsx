@@ -86,12 +86,15 @@ export default function Terminal({
 
       const fx = result.effect;
       if (!fx) return;
-      if (fx.type === 'theme') {
-        setTheme(fx.value);
-        unlock('theme');
-      }
+      if (fx.type === 'theme') setTheme(fx.value);
       if (fx.type === 'close') setTimeout(() => onClose?.(), 500);
       if (fx.type === 'buddy') window.dispatchEvent(new CustomEvent('buddy', { detail: fx.value }));
+      if (fx.type === 'rm') {
+        setTimeout(() => {
+          onClose?.();
+          setTimeout(() => window.dispatchEvent(new Event('site:rm')), 350);
+        }, 700);
+      }
       if (fx.type === 'role') {
         if (fx.value) switchRole(fx.value);
         else {

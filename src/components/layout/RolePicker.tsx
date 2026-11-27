@@ -57,7 +57,7 @@ export default function RolePicker() {
     if (open && !d.open) {
       d.showModal();
       if (!prefersReducedMotion()) {
-        if (!firstVisit) gsap.fromTo(d, { backgroundColor: 'rgba(10,9,8,0)' }, { backgroundColor: 'rgba(10,9,8,0.7)', duration: 0.35 });
+        if (!firstVisit) gsap.fromTo(d, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 });
         gsap.fromTo(panel.current, { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power3.out' });
         gsap.fromTo('[data-role-card]', { autoAlpha: 0, y: 40, rotateX: -12 }, { autoAlpha: 1, y: 0, rotateX: 0, duration: 0.7, stagger: 0.12, delay: 0.15, ease: 'power3.out' });
       }
@@ -94,7 +94,7 @@ export default function RolePicker() {
       }}
       className={cn(
         'fixed inset-0 m-0 h-dvh max-h-none w-screen max-w-none overflow-y-auto p-4 backdrop:bg-transparent sm:p-8',
-        firstVisit ? 'bg-bg' : 'bg-black/70',
+        'bg-bg',
       )}
     >
       <div ref={panel} className="relative mx-auto flex min-h-full max-w-4xl flex-col justify-center py-8" style={{ perspective: 1000 }}>
@@ -141,16 +141,8 @@ export default function RolePicker() {
                     </span>
                   )}
                 </span>
-                <span className="mt-6 font-mono text-xs tracking-[0.16em] text-muted uppercase">{key === 'dev' ? 'Fellow developer' : 'Everyone else'}</span>
-                <span className="mt-1 font-display text-2xl font-semibold sm:text-3xl">{r.name}</span>
+                <span className="mt-8 font-display text-2xl font-semibold sm:text-3xl">{r.name}</span>
                 <span className="mt-2 text-muted">{r.tagline}</span>
-                <ul className="mt-5 space-y-1.5 text-sm">
-                  {r.gets.map((g) => (
-                    <li key={g} className="flex items-center gap-2">
-                      <span className="h-1.5 w-1.5 rounded-full bg-accent" /> {g}
-                    </li>
-                  ))}
-                </ul>
               </button>
             );
           })}

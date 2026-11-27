@@ -18,7 +18,7 @@ export default function Contact({ headingLevel = 'section' }: { headingLevel?: '
             />
             <ul className="space-y-2" data-reveal>
               {socials.map((s) => (
-                <li key={s.key}>
+                <li key={s.key} data-perch>
                   <a
                     href={s.href}
                     {...(s.href.startsWith('http') && { target: '_blank', rel: 'noopener noreferrer' })}

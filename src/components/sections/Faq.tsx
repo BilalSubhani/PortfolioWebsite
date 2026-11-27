@@ -29,7 +29,7 @@ export default function Faq() {
   return (
     <div ref={list} className="divide-y divide-line border-y border-line">
       {faq.map((f) => (
-        <details key={f.q} className="group" data-reveal="fade">
+        <details key={f.q} data-perch className="group" data-reveal="fade">
           <summary
             onClick={toggle}
             className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-left font-display text-lg font-medium sm:text-xl [&::-webkit-details-marker]:hidden"

@@ -1,14 +1,16 @@
 'use client';
 
 import { gsap, prefersReducedMotion, ScrollTrigger, useGSAP } from '@/lib/gsap';
+import { useRole } from '@/lib/role';
 
 // Scroll-driven "sheet" transitions between homepage sections. As the next section
 // rises into view it slides over the current one, which sinks back (lags, scales
 // down and dims). Transform/opacity only, scrubbed to scroll — no pinning, so it
 // works at every viewport size. Each section is stacked above the previous one.
 export default function MergeController({ selector = '[data-merge-stack] > section' }: { selector?: string }) {
+  const role = useRole();
   useGSAP(() => {
-    const sections = gsap.utils.toArray<HTMLElement>(selector);
+    const sections = gsap.utils.toArray<HTMLElement>(selector).filter((s) => s.offsetParent !== null || getComputedStyle(s).display !== 'none');
     sections.forEach((s, i) => (s.style.zIndex = String(i + 1)));
     if (prefersReducedMotion()) return;
 
@@ -52,7 +54,7 @@ export default function MergeController({ selector = '[data-merge-stack] > secti
       return () => shades.forEach((s) => s.remove());
     });
     return () => mm.revert();
-  });
+  }, { dependencies: [role, selector], revertOnUpdate: true });
 
   return null;
 }

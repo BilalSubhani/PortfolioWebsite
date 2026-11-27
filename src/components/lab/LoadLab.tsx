@@ -5,6 +5,7 @@ import { LuRotateCcw, LuZap } from 'react-icons/lu';
 import { unlock } from '@/lib/achievements';
 import { cn } from '@/lib/cn';
 import { gsap, prefersReducedMotion, useGSAP } from '@/lib/gsap';
+import Lens from '../ui/Lens';
 import Magnetic from '../ui/Magnetic';
 
 type Mode = 'direct' | 'queue';
@@ -34,6 +35,7 @@ const rgb = (hex: string) => {
 export default function LoadLab() {
   const [mode, setMode] = useState<Mode>('direct');
   const [rate, setRate] = useState(4);
+  const [repair, setRepair] = useState(false);
   const [stats, setStats] = useState({ sent: 0, served: 0, dropped: 0, queued: 0, overloaded: false });
 
   const root = useRef<HTMLDivElement>(null);
@@ -82,6 +84,7 @@ export default function LoadLab() {
     const s = sim.current;
     s.burstLeft += BURST;
     s.burstDroppedAt = s.dropped;
+    window.dispatchEvent(new Event('lab:burst'));
     if (!prefersReducedMotion()) gsap.fromTo('[data-burst-btn]', { scale: 0.92 }, { scale: 1, duration: 0.6, ease: 'elastic.out(1, 0.35)' });
   };
 
@@ -311,6 +314,8 @@ export default function LoadLab() {
       if (statTimer > 0.12) {
         statTimer = 0;
         const overloaded = s.fx.flash > 0.05;
+        if (overloaded) window.dispatchEvent(new CustomEvent('lab:overload', { detail: c }));
+        else if (s.processing + s.inflight < CAP) window.dispatchEvent(new Event('lab:healthy'));
         setStats({ sent: s.sent, served: s.served, dropped: s.dropped, queued: s.queue.length, overloaded });
         if (s.droppedDirect >= 15) unlock('broke-it');
         // A burst counts as survived once every request in it has been accepted (queued or served) with no drops.
@@ -341,7 +346,15 @@ export default function LoadLab() {
     };
   }, []);
 
-  const status = stats.overloaded
+  useEffect(() => {
+    const on = (e: Event) => setRepair((e as CustomEvent<boolean>).detail);
+    window.addEventListener('buddy:repair', on);
+    return () => window.removeEventListener('buddy:repair', on);
+  }, []);
+
+  const status = repair
+    ? { text: 'Under repair: builder on site 🔧', cls: 'text-accent border-accent/40 bg-accent-soft' }
+    : stats.overloaded
     ? { text: 'Overloaded — dropping requests', cls: 'text-err border-err/40 bg-err/10' }
     : stats.queued > 0
       ? { text: `${stats.queued} waiting safely in the queue`, cls: 'text-accent border-accent/40 bg-accent-soft' }
@@ -362,14 +375,16 @@ export default function LoadLab() {
               onClick={() => setMode(m)}
               className={cn('relative z-10 rounded-full px-3 py-2 font-medium whitespace-nowrap transition-colors sm:px-4', mode === m ? 'text-accent-fg' : 'text-muted hover:text-fg')}
             >
-              {m === 'direct' ? 'Straight to the server' : 'Queue in front'}
+              {m === 'direct' ? <Lens dev="Straight to the server" plain="No waiting line" /> : <Lens dev="Queue in front" plain="Add a waiting line" />}
             </button>
           ))}
         </div>
 
         <div className="flex flex-wrap items-center justify-end gap-3 sm:gap-4">
           <label className="flex min-w-0 basis-full items-center gap-3 text-xs text-muted sm:basis-auto sm:text-sm">
-            <span className="whitespace-nowrap">Traffic</span>
+            <span className="whitespace-nowrap">
+              <Lens dev="Traffic" plain="Visitors" />
+            </span>
             <input
               type="range"
               min={0}
@@ -380,7 +395,10 @@ export default function LoadLab() {
               className="min-w-0 flex-1 accent-[var(--accent)] sm:w-36 sm:flex-none"
               aria-valuetext={`${rate} requests per second`}
             />
-            <span className="w-14 font-mono text-fg tabular-nums">{rate}/s</span>
+            <span className="w-14 font-mono text-fg tabular-nums">
+              {rate}
+              <Lens dev=" req/s" plain="/s" />
+            </span>
           </label>
           <Magnetic strength={0.25}>
             <button data-burst-btn type="button" onClick={burst} className="btn-primary">
@@ -396,9 +414,11 @@ export default function LoadLab() {
       {/* Scene */}
       <div className="relative">
         <canvas ref={canvasRef} className="block h-[260px] w-full sm:h-[320px] lg:h-[360px]" aria-hidden="true" />
-        <span className="pointer-events-none absolute top-3 left-3 font-mono text-[10px] tracking-[0.14em] text-muted uppercase sm:text-[11px]">Clients</span>
+        <span className="pointer-events-none absolute top-3 left-3 font-mono text-[10px] tracking-[0.14em] text-muted uppercase sm:text-[11px]">
+          <Lens dev="Clients" plain="Visitors" />
+        </span>
         <span data-lab-queue-label className="pointer-events-none invisible absolute top-3 left-[47%] -translate-x-1/2 font-mono text-[10px] tracking-[0.14em] whitespace-nowrap text-accent uppercase sm:text-[11px]">
-          Queue
+          <Lens dev="Queue (RabbitMQ)" plain="Waiting line" />
         </span>
         <span className="pointer-events-none absolute top-3 right-3 font-mono text-[10px] tracking-[0.14em] text-muted uppercase sm:text-[11px]">Server</span>
         <span className={cn('absolute bottom-3 left-1/2 max-w-[90%] -translate-x-1/2 truncate rounded-full border px-3 py-1 text-xs font-medium', status.cls)} role="status">
@@ -408,15 +428,19 @@ export default function LoadLab() {
 
       {/* Stats */}
       <dl className="grid grid-cols-2 gap-px border-t border-line bg-line sm:grid-cols-4">
-        {[
-          ['Sent', stats.sent, 'text-fg'],
-          ['Served', stats.served, 'text-ok'],
-          ['Dropped', stats.dropped, stats.dropped ? 'text-err' : 'text-fg'],
-          ['Waiting', stats.queued, 'text-accent'],
-        ].map(([k, v, c]) => (
-          <div key={k as string} className="flex flex-col-reverse bg-surface px-4 py-3 sm:px-5">
-            <dt className="text-xs text-muted">{k}</dt>
-            <dd className={cn('font-display text-2xl font-semibold tabular-nums', c as string)}>{(v as number).toLocaleString('en-US')}</dd>
+        {(
+          [
+            ['Sent', 'Arrived', stats.sent, 'text-fg'],
+            ['Served', 'Helped', stats.served, 'text-ok'],
+            ['Dropped', 'Turned away', stats.dropped, stats.dropped ? 'text-err' : 'text-fg'],
+            ['Queued', 'Waiting', stats.queued, 'text-accent'],
+          ] as const
+        ).map(([k, kp, v, c]) => (
+          <div key={k} className="flex flex-col-reverse bg-surface px-4 py-3 sm:px-5">
+            <dt className="text-xs text-muted">
+              <Lens dev={k} plain={kp} />
+            </dt>
+            <dd className={cn('font-display text-2xl font-semibold tabular-nums', c)}>{v.toLocaleString('en-US')}</dd>
           </div>
         ))}
       </dl>

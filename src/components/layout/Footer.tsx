@@ -3,7 +3,6 @@ import { quotes } from '@/content/misc';
 import { navItems, profile, socials } from '@/content/profile';
 import SocialIcon from '../ui/SocialIcon';
 import QuoteRotator from './QuoteRotator';
-import ThemeToggle from './ThemeToggle';
 
 export default function Footer() {
   return (
@@ -59,10 +58,9 @@ export default function Footer() {
           <p>
             © {new Date().getFullYear()} {profile.name}. Built with Next.js & GSAP.
           </p>
-          <div className="flex items-center gap-3">
-            <span>Theme</span>
-            <ThemeToggle />
-          </div>
+          <a href="/llms.txt" className="text-muted transition-colors hover:text-accent">
+            llms.txt
+          </a>
         </div>
       </div>
     </footer>

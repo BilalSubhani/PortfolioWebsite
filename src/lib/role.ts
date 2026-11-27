@@ -12,13 +12,11 @@ export const ROLES = {
     name: 'Merge Conflict Survivor',
     short: 'Dev mode',
     tagline: 'Show me the stack, the numbers and the receipts.',
-    gets: ['Technical detail and architecture', 'Skills as JSON with evidence', 'Stack and tooling on every role'],
   },
   plain: {
     name: 'Quest Merchant',
     short: 'Plain mode',
     tagline: 'Skip the jargon. What does he do, and why should I care?',
-    gets: ['Plain-English explanations', 'Impact first, tech second', 'Skills explained in everyday words'],
   },
 } as const;
 

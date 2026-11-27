@@ -1,3 +1,4 @@
+import Lens from './Lens';
 import SplitHeading from './SplitHeading';
 
 export default function SectionHeading({
@@ -16,7 +17,7 @@ export default function SectionHeading({
   return (
     <header className="mb-10 max-w-3xl sm:mb-14">
       <p className="eyebrow mb-4" data-reveal="fade">
-        {eyebrow}
+        <Lens dev={<span className="normal-case">{`// ${eyebrow.toLowerCase()}`}</span>} plain={eyebrow.replace(/^\d+\s+—\s+/, '')} />
       </p>
       <SplitHeading
         id={id}

@@ -29,7 +29,7 @@ export default function About() {
             <p data-reveal>
               Along the way I’ve published open-source npm packages, trained 10+ junior developers and sat on 50+ technical interviews.
             </p>
-            <dl className="grid gap-px overflow-hidden rounded-2xl border border-line bg-line pt-0 sm:grid-cols-2" data-reveal>
+            <dl data-perch className="grid gap-px overflow-hidden rounded-2xl border border-line bg-line pt-0 sm:grid-cols-2" data-reveal>
               {facts.map((f) => (
                 <div key={f.k} className="bg-bg p-4">
                   <dt className="font-mono text-[11px] tracking-[0.16em] text-accent uppercase">{f.k}</dt>

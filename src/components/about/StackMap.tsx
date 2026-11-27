@@ -35,8 +35,9 @@ export default function StackMap() {
     const el = root.current;
     if (!el) return;
     const measure = () => {
+      if (!hub.current || !el.isConnected) return; // can fire once more while unmounting
       const box = el.getBoundingClientRect();
-      const h = hub.current!.getBoundingClientRect();
+      const h = hub.current.getBoundingClientRect();
       const hx = h.left - box.left;
       const hw = h.width;
       const hy = h.top - box.top + h.height / 2;
@@ -146,7 +147,7 @@ export default function StackMap() {
         <span className="mt-3 block text-sm leading-snug text-muted">
           <Lens dev={m.dev} plain={m.plain} />
         </span>
-        <span className="mt-3 flex flex-wrap gap-1.5" aria-hidden="true">
+        <span className="lens-dev mt-3 flex flex-wrap gap-1.5" aria-hidden="true">
           {f.skills.map((s, k) => (
             <span key={s.name} data-chip className={cn('chip transition-colors', on && 'border-accent/40 text-fg', k >= 4 && 'max-md:hidden')}>
               {s.name}

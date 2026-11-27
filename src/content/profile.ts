@@ -33,11 +33,14 @@ export const profile = {
 };
 
 export const stats = [
-  { value: 250, suffix: '', label: 'concurrent AI calls on one server' },
-  { value: 16000, suffix: '', label: 'req/s ticket bursts handled' },
-  { value: 500, suffix: '+', label: 'people on platforms I own' },
-  { value: 4, suffix: '+', label: 'npm packages published' },
+  { value: 250, suffix: '', label: 'concurrent AI calls on one server', labelPlain: 'AI phone calls at once, on one server' },
+  { value: 16000, suffix: '', label: 'req/s ticket bursts handled', labelPlain: 'support requests a second, without crashing' },
+  { value: 500, suffix: '+', label: 'people on platforms I own', labelPlain: 'people use software I look after' },
+  { value: 4, suffix: '+', label: 'npm packages published', labelPlain: 'free tools published for developers' },
 ];
+
+// The plain-English hero's "in plain words" highlights.
+export const plainHighlights = ['I build software that keeps working when it gets busy', 'I lead a team of 6 developers', 'I make AI useful and affordable'];
 
 export type SocialKey = 'github' | 'linkedin' | 'upwork' | 'whatsapp' | 'email';
 

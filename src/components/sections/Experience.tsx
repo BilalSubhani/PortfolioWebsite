@@ -61,7 +61,7 @@ export default function Experience() {
                 {(['dev', 'plain'] as const).map((lens) => (
                   <ul key={lens} className={`lens-${lens} mt-5 grid gap-2 sm:grid-cols-2 xl:grid-cols-3`}>
                     {(lens === 'dev' ? e.wins : e.winsPlain).map((w) => (
-                      <li key={w} className="rounded-xl border border-line bg-surface px-4 py-3 text-sm leading-snug">
+                      <li key={w} data-perch className="rounded-xl border border-line bg-surface px-4 py-3 text-sm leading-snug">
                         {w}
                       </li>
                     ))}

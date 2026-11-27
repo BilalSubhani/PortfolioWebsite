@@ -37,6 +37,7 @@
   --err: #d98b7a;
   --grain-opacity: 0.05;
   --sheet-shadow: rgb(0 0 0 / 0.55);
+  --grid-line: rgb(232 224 210 / 0.035);
   color-scheme: dark;
 }
 
@@ -55,6 +56,7 @@
   --err: #a2432f;
   --grain-opacity: 0.035;
   --sheet-shadow: rgb(70 50 30 / 0.18);
+  --grid-line: rgb(42 36 29 / 0.05);
   color-scheme: light;
 }
 
@@ -153,6 +155,18 @@ html.needs-role .grain::after {
 html[data-role='plain'] .lens-dev,
 html:not([data-role='plain']) .lens-plain {
   display: none !important;
+}
+
+/* Developer view: a faint blueprint grid behind every section */
+html[data-role='dev'] [data-merge-stack] > section:not(#home) {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+/* Plain view: no terminal section (the floating launcher stays for the curious) */
+html[data-role='plain'] #terminal {
+  display: none;
 }
 
 /* Scroll-driven border beam (21st.dev-style). GlowController animates --glow-angle and --glow. */

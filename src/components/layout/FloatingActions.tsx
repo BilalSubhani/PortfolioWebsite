@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useRef, useState } from 'react';
-import { LuArrowUp, LuSparkles, LuTerminal } from 'react-icons/lu';
+import { LuArrowUp, LuTerminal, LuTrophy } from 'react-icons/lu';
 import { ACHIEVEMENTS, useAchievements } from '@/lib/achievements';
 import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
 import { scrollToId } from '@/lib/scroll';
@@ -61,7 +61,7 @@ export default function FloatingActions() {
           aria-label={`Discoveries: ${got.length} of ${ACHIEVEMENTS.length} found`}
           aria-expanded={panel}
         >
-          <LuSparkles className="h-5 w-5" />
+          <LuTrophy className="h-5 w-5" />
           <span className="absolute -top-1 -right-1 grid h-5 min-w-5 place-items-center rounded-full bg-accent px-1 font-mono text-[10px] font-semibold text-accent-fg">
             {got.length}
           </span>

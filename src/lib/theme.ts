@@ -9,7 +9,6 @@ const read = (): Theme =>
   typeof document !== 'undefined' && document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
 
 export function setTheme(next: Theme | 'toggle') {
-  void import('./achievements').then((m) => m.unlock('theme'));
   const value: Theme = next === 'toggle' ? (read() === 'dark' ? 'light' : 'dark') : next;
   document.documentElement.dataset.theme = value;
   try {

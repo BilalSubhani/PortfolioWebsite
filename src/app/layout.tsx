@@ -7,6 +7,8 @@ import Navbar from '@/components/layout/Navbar';
 import Preloader from '@/components/layout/Preloader';
 import RolePicker from '@/components/layout/RolePicker';
 import Cursor from '@/components/providers/Cursor';
+import Demolition from '@/components/providers/Demolition';
+import DevtoolsWatch from '@/components/providers/DevtoolsWatch';
 import GlowController from '@/components/providers/GlowController';
 import RevealController from '@/components/providers/RevealController';
 import SmoothScroll from '@/components/providers/SmoothScroll';
@@ -88,6 +90,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <RevealController />
           <GlowController />
           <Cursor />
+          <DevtoolsWatch />
+          <Demolition />
           <Navbar />
           <main id="main">{children}</main>
           <Footer />

@@ -3,12 +3,13 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { LuCodeXml, LuMenu, LuScroll, LuTerminal, LuX } from 'react-icons/lu';
+import { LuCodeXml, LuMenu, LuMoon, LuScroll, LuSun, LuTerminal, LuX } from 'react-icons/lu';
 import { navItems, profile } from '@/content/profile';
 import { cn } from '@/lib/cn';
 import { gsap, prefersReducedMotion, ScrollTrigger, useGSAP } from '@/lib/gsap';
 import { openRolePicker, ROLES, useRole } from '@/lib/role';
 import { scrollToId } from '@/lib/scroll';
+import { setTheme, useTheme } from '@/lib/theme';
 import { useTerminal } from '../terminal/TerminalContext';
 import ThemeToggle from './ThemeToggle';
 
@@ -17,6 +18,7 @@ export default function Navbar() {
   const isHome = pathname === '/';
   const { setOpen } = useTerminal();
   const role = useRole();
+  const theme = useTheme();
   const [active, setActive] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMac, setIsMac] = useState(false);
@@ -185,7 +187,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={openRolePicker}
-              className="flex h-10 items-center gap-2 rounded-full border border-line px-3 text-xs text-muted transition-colors hover:border-accent hover:text-accent"
+              className="flex h-10 items-center gap-2 rounded-full border border-line px-3 text-xs text-muted transition-colors hover:border-accent hover:text-accent max-sm:hidden"
               aria-label={`Viewing as ${ROLES[role].name}. Change path`}
               title={ROLES[role].name}
             >
@@ -201,7 +203,7 @@ export default function Navbar() {
               <LuTerminal className="h-4 w-4" />
               <kbd className="hidden font-mono sm:inline">{isMac ? '⌘K' : 'Ctrl K'}</kbd>
             </button>
-            <ThemeToggle />
+            <ThemeToggle className="max-sm:hidden" />
             <button
               type="button"
               onClick={() => setMenuOpen((o) => !o)}
@@ -237,11 +239,40 @@ export default function Navbar() {
             </li>
           ))}
         </ul>
+        <div className="space-y-6">
+          <div data-menu-item className="grid grid-cols-2 gap-3 sm:hidden">
+            <button
+              type="button"
+              onClick={() => setTheme('toggle')}
+              className="flex items-center gap-3 rounded-2xl border border-line bg-bg px-4 py-3 text-left"
+            >
+              {theme === 'dark' ? <LuSun className="h-5 w-5 shrink-0 text-accent" /> : <LuMoon className="h-5 w-5 shrink-0 text-accent" />}
+              <span className="min-w-0">
+                <span className="block text-xs text-muted">Theme</span>
+                <span className="block truncate text-sm font-medium">{theme === 'dark' ? 'Switch to light' : 'Switch to dark'}</span>
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setMenuOpen(false);
+                setTimeout(openRolePicker, 400);
+              }}
+              className="flex items-center gap-3 rounded-2xl border border-line bg-bg px-4 py-3 text-left"
+            >
+              {role === 'dev' ? <LuCodeXml className="h-5 w-5 shrink-0 text-accent" /> : <LuScroll className="h-5 w-5 shrink-0 text-accent" />}
+              <span className="min-w-0">
+                <span className="block text-xs text-muted">Path</span>
+                <span className="block truncate text-sm font-medium">{ROLES[role].short}</span>
+              </span>
+            </button>
+          </div>
         <div data-menu-item className="flex flex-wrap items-center justify-between gap-4 text-sm text-muted">
           <span>{profile.availability}</span>
           <a href={`mailto:${profile.email}`} className="text-accent">
             {profile.email}
           </a>
+        </div>
         </div>
       </div>
     </>

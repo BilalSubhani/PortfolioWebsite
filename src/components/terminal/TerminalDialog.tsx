@@ -18,9 +18,13 @@ export default function TerminalDialog() {
     if (open && !d.open) {
       d.showModal();
       document.documentElement.style.overflow = 'hidden';
+      const focusInput = () => d.querySelector<HTMLInputElement>('input')?.focus({ preventScroll: true });
+      requestAnimationFrame(focusInput);
+      setTimeout(focusInput, 60);
       if (!prefersReducedMotion()) {
         gsap.fromTo(d, { backgroundColor: 'rgba(10,9,8,0)' }, { backgroundColor: 'rgba(10,9,8,0.6)', duration: 0.3 });
-        gsap.fromTo(panel.current, { autoAlpha: 0, y: 30, scale: 0.97 }, { autoAlpha: 1, y: 0, scale: 1, duration: 0.45, ease: 'power3.out' });
+        // Opacity, not autoAlpha: a visibility-hidden input can't take focus.
+        gsap.fromTo(panel.current, { opacity: 0, y: 30, scale: 0.97 }, { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: 'power3.out' });
       }
     } else if (!open && d.open) {
       const finish = () => {
@@ -28,7 +32,7 @@ export default function TerminalDialog() {
         document.documentElement.style.overflow = '';
       };
       if (prefersReducedMotion()) finish();
-      else gsap.to(panel.current, { autoAlpha: 0, y: 20, scale: 0.98, duration: 0.25, ease: 'power2.in', onComplete: finish });
+      else gsap.to(panel.current, { opacity: 0, y: 20, scale: 0.98, duration: 0.25, ease: 'power2.in', onComplete: finish });
     }
   }, [open]);
 

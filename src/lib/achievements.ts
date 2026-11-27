@@ -10,10 +10,12 @@ export const ACHIEVEMENTS = [
   { id: 'sudo', title: 'Nice try', hint: 'Ask for more permissions than you should.' },
   { id: 'broke-it', title: 'Chaos engineer', hint: 'Take the server down in the Load Lab.' },
   { id: 'fixed-it', title: 'Queue enjoyer', hint: 'Survive a burst without dropping a request.' },
-  { id: 'theme', title: 'Night shift', hint: 'Switch the theme.' },
   { id: 'receipts', title: 'Checked the receipts', hint: 'Inspect three skills in the IDE.' },
   { id: 'coffee', title: 'Caffeinated', hint: 'The terminal knows a hidden command or two.' },
-  { id: 'buddy', title: 'Made a friend', hint: 'Catch the little character wandering around.' },
+  { id: 'buddy', title: 'Made a friend', hint: 'Catch the little builder wandering around.' },
+  { id: 'nosy', title: 'Nosy neighbour', hint: 'Peek behind the curtain.' },
+  { id: 'ransom', title: 'Ransom paid', hint: 'Leave your mouse alone for a while…' },
+  { id: 'rogue', title: 'Rogue builder', hint: 'Ask the terminal to delete everything.' },
 ] as const;
 
 export type AchievementId = (typeof ACHIEVEMENTS)[number]['id'];

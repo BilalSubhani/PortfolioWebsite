@@ -24,7 +24,8 @@ export type Effect =
   | { type: 'theme'; value: 'dark' | 'light' | 'toggle' }
   | { type: 'close' }
   | { type: 'role'; value?: 'dev' | 'plain' }
-  | { type: 'buddy'; value: string };
+  | { type: 'buddy'; value: string }
+  | { type: 'rm' };
 
 export interface Result {
   lines: Line[];
@@ -215,15 +216,30 @@ const commands: Command[] = [
   },
   {
     name: 'buddy',
-    desc: 'your roaming companion  [buddy robot|alien|knight|zombie|off]',
-    args: () => ['robot', 'alien', 'knight', 'zombie', 'off', 'on'],
+    desc: 'the little builder  [buddy on|off]',
+    args: () => ['on', 'off'],
     run: (args) => {
       const v = (args[0] ?? 'on').toLowerCase();
-      if (!['robot', 'alien', 'knight', 'zombie', 'off', 'on'].includes(v))
-        return { lines: [L({ t: 'Usage: buddy robot|alien|knight|zombie|off', tone: 'err' })] };
+      if (!['off', 'on'].includes(v)) return { lines: [L({ t: 'Usage: buddy on|off', tone: 'err' })] };
       return {
-        lines: [L({ t: v === 'off' ? 'Buddy sent home. Type buddy on to bring them back.' : `Here comes the ${v === 'on' ? 'robot' : v}.`, tone: 'ok' })],
+        lines: [L({ t: v === 'off' ? 'Buddy sent home. Type buddy on to bring them back.' : 'Here comes the builder.', tone: 'ok' })],
         effect: { type: 'buddy', value: v },
+      };
+    },
+  },
+  {
+    name: 'rm',
+    desc: '',
+    hidden: true,
+    run: (args) => {
+      if (!args.some((a) => /^-[a-z]*r[a-z]*f|^-[a-z]*f[a-z]*r/i.test(a)))
+        return { lines: [L({ t: 'rm: missing operand. (The fun version needs -rf. Go on.)', tone: 'err' })] };
+      return {
+        lines: [
+          L({ t: `rm: descending into ‘${args.find((a) => !a.startsWith('-')) ?? '/portfolio'}’…`, tone: 'err' }),
+          L({ t: 'rm: this was a terrible idea.', tone: 'err' }),
+        ],
+        effect: { type: 'rm' },
       };
     },
   },

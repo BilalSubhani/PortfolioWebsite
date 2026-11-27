@@ -55,8 +55,53 @@ export default function Cursor() {
       if (el.parentElement !== parent) parent.appendChild(el);
     };
 
+    // The buddy can steal the cursor (ransom: one meme) and give it back.
+    let stolen = false;
+    const last = { x: 0, y: 0 };
+    const onSteal = (e: Event) => {
+      const { x, y } = (e as CustomEvent<{ x: number; y: number }>).detail;
+      stolen = true;
+      gsap.to([d, r], { x, y, duration: reduce ? 0 : 0.35, ease: 'power2.in', overwrite: true });
+      gsap.to(el, { autoAlpha: 0, duration: 0.2, delay: reduce ? 0 : 0.3 });
+    };
+    const onReturn = (e: Event) => {
+      const { x, y } = (e as CustomEvent<{ x: number; y: number }>).detail;
+      gsap.set([d, r], { x, y });
+      gsap.to(el, { autoAlpha: 1, duration: 0.2 });
+      gsap.to([d, r], { x: last.x, y: last.y, duration: reduce ? 0 : 0.6, ease: 'power3.out', overwrite: true, onComplete: () => void (stolen = false) });
+      visible = true;
+    };
+    window.addEventListener('cursor:steal', onSteal);
+    window.addEventListener('cursor:return', onReturn);
+
+    // A theft from before a refresh: stay hidden until the buddy confirms it's holding the
+    // cursor; if it never shows up (switched off, WebGL failed), give the cursor back.
+    let pendingTimer: ReturnType<typeof setTimeout> | undefined;
+    let pending = false;
+    try {
+      pending = localStorage.getItem('bs-ransom') === '1' && localStorage.getItem('bs-buddy') !== 'off';
+    } catch {
+      /* ignore */
+    }
+    const onHeld = () => clearTimeout(pendingTimer);
+    window.addEventListener('cursor:held', onHeld);
+    if (pending) {
+      stolen = true;
+      pendingTimer = setTimeout(() => {
+        stolen = false;
+        try {
+          localStorage.removeItem('bs-ransom');
+        } catch {
+          /* ignore */
+        }
+      }, 10000);
+    }
+
     const move = (e: PointerEvent) => {
       if (e.pointerType !== 'mouse') return;
+      last.x = e.clientX;
+      last.y = e.clientY;
+      if (stolen) return;
       syncLayer();
       dx(e.clientX);
       dy(e.clientY);
@@ -75,6 +120,7 @@ export default function Cursor() {
     const down = () => !reduce && gsap.to(r, { scale: mode === 'link' ? 1.4 : 0.75, duration: 0.15 });
     const up = () => !reduce && gsap.to(r, { scale: mode === 'link' ? 1.8 : 1, duration: 0.35, ease: 'elastic.out(1, 0.5)' });
     const leave = () => {
+      if (stolen) return;
       visible = false;
       gsap.to(el, { autoAlpha: 0, duration: 0.2 });
     };
@@ -85,6 +131,10 @@ export default function Cursor() {
     document.documentElement.addEventListener('pointerleave', leave);
     return () => {
       html.classList.remove('custom-cursor');
+      window.removeEventListener('cursor:steal', onSteal);
+      window.removeEventListener('cursor:return', onReturn);
+      window.removeEventListener('cursor:held', onHeld);
+      clearTimeout(pendingTimer);
       window.removeEventListener('pointermove', move);
       window.removeEventListener('pointerdown', down);
       window.removeEventListener('pointerup', up);

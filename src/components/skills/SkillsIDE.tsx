@@ -8,6 +8,7 @@ import { evidenceFor, type Skill, skillFiles, usageRefs, type UsageKey } from '@
 import { cn } from '@/lib/cn';
 import { unlock } from '@/lib/achievements';
 import { useRole } from '@/lib/role';
+import { switchRole } from '../layout/RolePicker';
 import { gsap, prefersReducedMotion, useGSAP } from '@/lib/gsap';
 
 type Mode = 'dev' | 'plain';
@@ -23,12 +24,13 @@ const hrefFor = (k: UsageKey) => (projects.some((p) => p.slug === k) ? `/project
 export default function SkillsIDE() {
   const [fileIdx, setFileIdx] = useState(2); // backend.json first: what most visitors ask about
   const [skillIdx, setSkillIdx] = useState(0);
-  // Follows the visitor's chosen path; the local toggle can still override it.
+  // Same setting as the visitor's path: flipping it here switches the whole site (and persists).
   const role = useRole();
   const [mode, setMode] = useState<Mode>(role);
   useEffect(() => setMode(role), [role]);
   const root = useRef<HTMLDivElement>(null);
   const thumb = useRef<HTMLSpanElement>(null);
+  const tabsRef = useRef<HTMLUListElement>(null);
   const inspected = useRef(new Set<string>());
   const pick = (name: string, i: number) => {
     setSkillIdx(i);
@@ -39,6 +41,15 @@ export default function SkillsIDE() {
   const file = skillFiles[fileIdx];
   const skill: Skill = file.skills[Math.min(skillIdx, file.skills.length - 1)];
   const evidence = evidenceFor(skill);
+
+  // Keep the active tab in view in the scrollable phone tab row (without scrolling the page).
+  useEffect(() => {
+    const row = tabsRef.current;
+    const tab = row?.querySelector<HTMLElement>(`[data-tab="${fileIdx}"]`);
+    if (!row || !tab || row.scrollWidth <= row.clientWidth) return;
+    const left = tab.offsetLeft - (row.clientWidth - tab.offsetWidth) / 2;
+    gsap.to(row, { scrollLeft: Math.max(0, left), duration: prefersReducedMotion() ? 0 : 0.4, ease: 'power3.out' });
+  }, [fileIdx]);
 
   // The Stack Map in About can open a category here.
   useEffect(() => {
@@ -138,7 +149,10 @@ export default function SkillsIDE() {
               type="button"
               role="radio"
               aria-checked={mode === m}
-              onClick={() => setMode(m)}
+              onClick={() => {
+                setMode(m);
+                switchRole(m);
+              }}
               className={cn('relative z-10 rounded-full px-3 py-1.5 font-medium transition-colors', mode === m ? 'text-accent-fg' : 'text-muted hover:text-fg')}
             >
               {m === 'dev' ? 'Developer' : 'Plain English'}
@@ -147,21 +161,29 @@ export default function SkillsIDE() {
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-[200px_minmax(0,1fr)_280px] xl:grid-cols-[220px_minmax(0,1fr)_300px]">
+      <div className="grid grid-cols-[minmax(0,1fr)] lg:grid-cols-[200px_minmax(0,1fr)_280px] xl:grid-cols-[220px_minmax(0,1fr)_300px]">
         {/* Explorer */}
-        <nav aria-label="Skill categories" className="border-line max-lg:border-b lg:border-r">
+        <nav aria-label="Skill categories" className="min-w-0 border-line max-lg:border-b lg:border-r">
           <p className="hidden items-center gap-2 px-4 pt-4 pb-2 font-mono text-[11px] tracking-[0.16em] text-muted uppercase lg:flex">
             <LuChevronDown className="h-3 w-3" /> <LuFolderOpen className="h-3.5 w-3.5 text-accent" /> skills
           </p>
-          <ul className="grid grid-cols-2 gap-1 p-2 sm:grid-cols-3 lg:flex lg:flex-col lg:pl-6">
+          <ul
+            ref={tabsRef}
+            role="tablist"
+            aria-orientation="horizontal"
+            data-lenis-prevent
+            className="flex snap-x gap-1 overflow-x-auto overscroll-x-contain p-2 [scrollbar-width:none] lg:flex-col lg:overflow-visible lg:pl-6 [&::-webkit-scrollbar]:hidden"
+          >
             {skillFiles.map((f, i) => (
-              <li key={f.file} className="min-w-0">
+              <li key={f.file} className="shrink-0 snap-start lg:min-w-0 lg:shrink">
                 <button
                   type="button"
                   onClick={() => openFile(i)}
-                  aria-current={i === fileIdx ? 'true' : undefined}
+                  role="tab"
+                  aria-selected={i === fileIdx}
+                  data-tab={i}
                   className={cn(
-                    'flex w-full min-w-0 items-center gap-2 rounded-lg px-3 py-2 font-mono text-xs transition-colors',
+                    'flex w-full min-w-0 items-center gap-2 rounded-lg px-3 py-2 font-mono text-xs whitespace-nowrap transition-colors lg:whitespace-normal',
                     i === fileIdx ? 'bg-accent-soft text-accent' : 'text-muted hover:bg-surface-2 hover:text-fg',
                   )}
                 >

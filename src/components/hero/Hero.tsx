@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic';
 import { useRef } from 'react';
 import { LuArrowDown, LuArrowUpRight, LuTerminal } from 'react-icons/lu';
-import { profile, stats } from '@/content/profile';
+import { plainHighlights, profile, stats } from '@/content/profile';
 import { unlock } from '@/lib/achievements';
 import { gsap, isFinePointer, prefersReducedMotion, useGSAP } from '@/lib/gsap';
 import { scrollToId } from '@/lib/scroll';
@@ -89,6 +89,48 @@ function enableRepel(title: HTMLElement) {
     zone.removeEventListener('pointerleave', onLeave);
     ro.disconnect();
   };
+}
+
+// Developer view: the intro as a small, highlighted TypeScript object.
+function HeroCode() {
+  const k = (t: string) => <span className="text-accent">{t}</span>;
+  const s = (t: string) => <span className="text-[#b7c88f] light:text-[#4f6b33]">&apos;{t}&apos;</span>;
+  const n = (t: string) => <span className="text-[#d6b46a] light:text-[#8f5527]">{t}</span>;
+  return (
+    <figure className="rounded-2xl border border-line bg-surface/80 font-mono text-[12.5px] leading-relaxed sm:text-[13.5px]">
+      <figcaption className="flex items-center gap-2 border-b border-line px-4 py-2 text-[11px] text-muted">
+        <span className="h-2 w-2 rounded-full bg-ok" /> bilal.ts
+      </figcaption>
+      <pre className="px-4 py-3 break-words whitespace-pre-wrap text-muted">
+        <span className="text-[#d98b7a] light:text-[#a2432f]">const</span> <span className="text-fg">bilal</span> = {'{'}
+        {'\n  '}
+        {k('role')}: {s('Full-Stack Engineer · Team Lead')},{'\n  '}
+        {k('stack')}: [{s('Go')}, {s('Python')}, {s('TypeScript')}, {s('Next.js')}],{'\n  '}
+        {k('shipped')}: {'{'} {k('concurrentCalls')}: {n('250')}, {k('burstReqPerSec')}: {n('16_000')} {'}'},{'\n  '}
+        {k('openTo')}: {s('remote')},{'\n'}
+        {'}'};
+      </pre>
+    </figure>
+  );
+}
+
+// Plain view: a friendly intro and three highlights in everyday words.
+function HeroPlain() {
+  return (
+    <>
+      <p className="text-base leading-relaxed text-muted sm:text-lg">
+        <strong className="font-medium text-fg">{profile.name}</strong> — {profile.introPlain}
+      </p>
+      <ul className="mt-5 space-y-2">
+        {plainHighlights.map((h) => (
+          <li key={h} className="flex items-start gap-3 text-sm text-fg sm:text-base">
+            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+            {h}
+          </li>
+        ))}
+      </ul>
+    </>
+  );
 }
 
 export default function Hero() {
@@ -190,9 +232,9 @@ export default function Hero() {
         </h1>
 
         <div className="mt-8 grid gap-8 lg:mt-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
-          <p data-hero-fade className="max-w-xl text-base leading-relaxed text-muted sm:text-lg">
-            <strong className="font-medium text-fg">{profile.name}</strong> — <Lens dev={profile.intro} plain={profile.introPlain} />
-          </p>
+          <div data-hero-fade className="max-w-xl">
+            <Lens block dev={<HeroCode />} plain={<HeroPlain />} />
+          </div>
           <div data-hero-fade className="flex flex-wrap gap-3">
             <Magnetic>
               <a href="#work" onClick={(e) => (e.preventDefault(), scrollToId('work'))} className="btn-primary">
@@ -212,10 +254,12 @@ export default function Hero() {
           </div>
         </div>
 
-        <dl className="mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:mt-16 lg:grid-cols-4">
+        <dl data-perch className="mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:mt-16 lg:grid-cols-4">
           {stats.map((s) => (
             <div key={s.label} data-hero-stat className="flex flex-col-reverse bg-bg p-4 sm:p-6">
-              <dt className="mt-1 text-xs leading-snug text-muted sm:text-sm">{s.label}</dt>
+              <dt className="mt-1 text-xs leading-snug text-muted sm:text-sm">
+                <Lens dev={<span className="font-mono text-[11px] sm:text-xs">{s.label}</span>} plain={s.labelPlain} />
+              </dt>
               <dd className="font-display text-[clamp(1.6rem,4vw,2.5rem)] font-semibold text-fg">
                 <Counter value={s.value} suffix={s.suffix} />
               </dd>
